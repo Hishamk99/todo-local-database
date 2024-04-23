@@ -15,16 +15,29 @@ class _HomePageState extends State<HomePage> {
     ['play piano', true],
     ['play football', false],
   ];
-  createNewTask() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const DialogBox();
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = TextEditingController();
+    createNewTask() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return DialogBox(
+            controller: controller,
+            onSave: () {
+              todoList.add([controller.text, false]);
+              Navigator.pop(context);
+              setState(() {});
+            },
+            onCancel: () {
+              Navigator.pop(context);
+            },
+          );
+        },
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.yellow.shade100,
