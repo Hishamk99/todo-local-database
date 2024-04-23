@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class TodoItem extends StatelessWidget {
   const TodoItem({
     super.key,
+    required this.textName,
+    required this.val,
+    this.onChanged,
   });
-
+  final String textName;
+  final bool val;
+  final void Function(bool?)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,13 +23,13 @@ class TodoItem extends StatelessWidget {
         child: Row(
           children: [
             Checkbox(
-              value: true,
-              onChanged: (val) {},
+              value: val,
+              onChanged: onChanged,
               checkColor: Colors.green,
             ),
-            const Text(
-              'to do',
-              style: TextStyle(
+            Text(
+              textName,
+              style: const TextStyle(
                 fontSize: 18,
               ),
             ),

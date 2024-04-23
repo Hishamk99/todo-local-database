@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:todo_with_hive_app/widgets/todo_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List todoList = [
+    ['solve problem', false],
+    ['play piano', true],
+    ['play football', false],
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -15,9 +25,12 @@ class HomePage extends StatelessWidget {
           elevation: 0,
         ),
         body: ListView.builder(
-          itemCount: 6,
+          itemCount: todoList.length,
           itemBuilder: (context, index) {
-            return const TodoItem();
+            return TodoItem(
+              textName: todoList[index][0],
+              val: todoList[index][1],
+            );
           },
         ),
       ),
