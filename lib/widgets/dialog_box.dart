@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'custom_elevated_buttom.dart';
+
 class DialogBox extends StatelessWidget {
   const DialogBox({
     super.key,
@@ -7,13 +9,13 @@ class DialogBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AlertDialog(
-      backgroundColor: Colors.yellow,
+    return AlertDialog(
+      backgroundColor: Colors.yellow[200],
       content: SizedBox(
-        height: 130,
+        height: 125,
         child: Column(
           children: [
-            TextField(
+            const TextField(
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 hintText: 'Add a new task',
@@ -21,8 +23,24 @@ class DialogBox extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(),
               ),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             Row(
-              children: [],
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomElevatedButtom(
+                  txt: 'Save',
+                  onPressed: () {},
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                CustomElevatedButtom(
+                  txt: 'Cancel',
+                  onPressed: () {},
+                ),
+              ],
             ),
           ],
         ),
