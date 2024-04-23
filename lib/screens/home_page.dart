@@ -60,6 +60,10 @@ class _HomePageState extends State<HomePage> {
                 todoList[index][1] = !todoList[index][1];
                 setState(() {});
               },
+              onPressed: (item) {
+                todoList.remove(todoList[index]);
+                setState(() {});
+              },
             );
           },
         ),
