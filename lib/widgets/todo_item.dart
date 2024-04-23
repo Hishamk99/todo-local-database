@@ -25,7 +25,7 @@ class TodoItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               onPressed: onPressed,
               icon: Icons.delete,
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.red.shade400,
             )
           ],
         ),
