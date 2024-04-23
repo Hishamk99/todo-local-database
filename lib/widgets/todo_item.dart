@@ -25,11 +25,13 @@ class TodoItem extends StatelessWidget {
             Checkbox(
               value: val,
               onChanged: onChanged,
-              checkColor: Colors.green,
+              activeColor: Colors.black,
             ),
             Text(
               textName,
-              style: const TextStyle(
+              style: TextStyle(
+                decoration:
+                    val ? TextDecoration.lineThrough : TextDecoration.none,
                 fontSize: 18,
               ),
             ),

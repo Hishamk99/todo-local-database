@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_with_hive_app/widgets/dialog_box.dart';
 import 'package:todo_with_hive_app/widgets/todo_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,11 +15,23 @@ class _HomePageState extends State<HomePage> {
     ['play piano', true],
     ['play football', false],
   ];
+  createNewTask() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const DialogBox();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.yellow.shade100,
+        floatingActionButton: FloatingActionButton(
+          onPressed: createNewTask,
+          child: const Icon(Icons.add),
+        ),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('TO DO'),
