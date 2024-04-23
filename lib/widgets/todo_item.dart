@@ -5,7 +5,7 @@ class TodoItem extends StatelessWidget {
     super.key,
     required this.textName,
     required this.val,
-    this.onChanged,
+    required this.onChanged,
   });
   final String textName;
   final bool val;

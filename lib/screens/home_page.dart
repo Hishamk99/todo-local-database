@@ -30,6 +30,10 @@ class _HomePageState extends State<HomePage> {
             return TodoItem(
               textName: todoList[index][0],
               val: todoList[index][1],
+              onChanged: (bool? val) {
+                todoList[index][1] = !todoList[index][1];
+                setState(() {});
+              },
             );
           },
         ),
