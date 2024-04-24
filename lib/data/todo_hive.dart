@@ -5,7 +5,7 @@ class TodoHive {
   List todoList = [];
   final box = Hive.box(boxName);
 
-  createInitialData() {
+  void createInitialData() {
     todoList = [
       ['do exercize', false],
       ['play football', false],
