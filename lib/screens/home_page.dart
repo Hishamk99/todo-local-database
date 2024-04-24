@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_with_hive_app/constant.dart';
-import 'package:todo_with_hive_app/data/todo_hive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_with_hive_app/cubit/cubit/get_tasks_cubit.dart';
 import 'package:todo_with_hive_app/widgets/dialog_box.dart';
 import 'package:todo_with_hive_app/widgets/todo_item.dart';
 
@@ -13,16 +12,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TodoHive data = TodoHive();
-  final box = Hive.box(boxName);
+  List tasksList = [];
 
   @override
   void initState() {
-    if (box.get(keyList) == null) {
-      data.createInitialData();
-    } else {
-      data.loadDate();
-    }
+    tasksList = BlocProvider.of<GetTasksCubit>(context).todoList;
     super.initState();
   }
 
@@ -36,16 +30,16 @@ class _HomePageState extends State<HomePage> {
           return DialogBox(
             controller: controller,
             onSave: () {
-              data.todoList.add(
-                [controller.text, false],
-              );
+              BlocProvider.of<GetTasksCubit>(context)
+                  .addTask(task: [controller.text, false]);
+              controller.clear();
+
               Navigator.pop(context);
-              setState(() {});
-              data.updateData();
+              tasksList = BlocProvider.of<GetTasksCubit>(context).updateData();
             },
             onCancel: () {
               Navigator.pop(context);
-              data.updateData();
+              tasksList = BlocProvider.of<GetTasksCubit>(context).updateData();
             },
           );
         },
@@ -64,22 +58,37 @@ class _HomePageState extends State<HomePage> {
           title: const Text('TO DO'),
           elevation: 0,
         ),
-        body: ListView.builder(
-          itemCount: data.todoList.length,
-          itemBuilder: (context, index) {
-            return TodoItem(
-              textName: data.todoList[index][0],
-              val: data.todoList[index][1],
-              onChanged: (bool? val) {
-                data.todoList[index][1] = !data.todoList[index][1];
-                setState(() {});
-                data.updateData();
-              },
-              onPressed: (item) {
-                data.todoList.remove(data.todoList[index]);
-                setState(() {});
-                data.updateData();
-              },
+        body: BlocBuilder<GetTasksCubit, GetTasksState>(
+          builder: (context, state) {
+            if (state is LoadTasksState) {
+              tasksList = BlocProvider.of<GetTasksCubit>(context).todoList;
+              return ListView.builder(
+                itemCount: tasksList.length,
+                itemBuilder: (context, index) {
+                  return TodoItem(
+                    textName: tasksList[index][0],
+                    val: tasksList[index][1],
+                    onChanged: (bool? val) {
+                      tasksList[index][1] = !tasksList[index][1];
+                      tasksList =
+                          BlocProvider.of<GetTasksCubit>(context).updateData();
+                    },
+                    onPressed: (item) {
+                      tasksList.remove(tasksList[index]);
+                      tasksList =
+                          BlocProvider.of<GetTasksCubit>(context).updateData();
+                    },
+                  );
+                },
+              );
+            }
+            return const Center(
+              child: Text(
+                'There is no tasks',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
             );
           },
         ),
