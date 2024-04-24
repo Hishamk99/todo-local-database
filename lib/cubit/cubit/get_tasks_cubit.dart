@@ -12,7 +12,9 @@ class GetTasksCubit extends Cubit<GetTasksState> {
 
   loadDate() {
     todoList = box.get(keyList);
+
     emit(LoadTasksState());
+
     return todoList;
   }
 
@@ -29,11 +31,7 @@ class GetTasksCubit extends Cubit<GetTasksState> {
   addTask({required List task}) {
     todoList.add(task);
 
-    if (todoList.isEmpty) {
-      emit(NoTasksState());
-    } else {
-      emit(LoadTasksState());
-    }
+    emit(LoadTasksState());
     return todoList;
   }
 

@@ -16,7 +16,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    tasksList = BlocProvider.of<GetTasksCubit>(context).todoList;
+    tasksList = BlocProvider.of<GetTasksCubit>(context).loadDate();
+    BlocProvider.of<GetTasksCubit>(context).updateData();
     super.initState();
   }
 
@@ -74,7 +75,8 @@ class _HomePageState extends State<HomePage> {
                           BlocProvider.of<GetTasksCubit>(context).updateData();
                     },
                     onPressed: (item) {
-                      tasksList.remove(tasksList[index]);
+                      BlocProvider.of<GetTasksCubit>(context)
+                          .removeTask(task: tasksList[index]);
                       tasksList =
                           BlocProvider.of<GetTasksCubit>(context).updateData();
                     },
