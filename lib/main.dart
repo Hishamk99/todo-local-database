@@ -5,7 +5,7 @@ import 'package:todo_with_hive_app/constant.dart';
 import 'screens/home_page.dart';
 
 void main() async {
-  Hive.initFlutter;
+  await Hive.initFlutter();
   await Hive.openBox(boxName);
   runApp(const MyApp());
 }

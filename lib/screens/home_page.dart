@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_with_hive_app/constant.dart';
+import 'package:todo_with_hive_app/data/todo_hive.dart';
 import 'package:todo_with_hive_app/widgets/dialog_box.dart';
 import 'package:todo_with_hive_app/widgets/todo_item.dart';
 
@@ -10,11 +13,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List todoList = [
-    ['solve problem', false],
-    ['play piano', true],
-    ['play football', false],
-  ];
+  TodoHive data = TodoHive();
+  final box = Hive.box(boxName);
+
+  @override
+  void initState() {
+    if (box.get(keyList) == null) {
+      data.createInitialData();
+    } else {
+      data.loadDate();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +36,16 @@ class _HomePageState extends State<HomePage> {
           return DialogBox(
             controller: controller,
             onSave: () {
-              todoList.add([controller.text, false]);
+              data.todoList.add(
+                [controller.text, false],
+              );
               Navigator.pop(context);
               setState(() {});
+              data.updateData();
             },
             onCancel: () {
               Navigator.pop(context);
+              data.updateData();
             },
           );
         },
@@ -51,18 +65,20 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
         ),
         body: ListView.builder(
-          itemCount: todoList.length,
+          itemCount: data.todoList.length,
           itemBuilder: (context, index) {
             return TodoItem(
-              textName: todoList[index][0],
-              val: todoList[index][1],
+              textName: data.todoList[index][0],
+              val: data.todoList[index][1],
               onChanged: (bool? val) {
-                todoList[index][1] = !todoList[index][1];
+                data.todoList[index][1] = !data.todoList[index][1];
                 setState(() {});
+                data.updateData();
               },
               onPressed: (item) {
-                todoList.remove(todoList[index]);
+                data.todoList.remove(data.todoList[index]);
                 setState(() {});
+                data.updateData();
               },
             );
           },
